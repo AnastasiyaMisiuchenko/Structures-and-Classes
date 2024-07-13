@@ -194,47 +194,103 @@ struct Book {
     int year;
     bool availability;
 
-};
-void NewBook() {
-    Book bnew;
-    unsigned int n;
-    cout << "Введите количество книг, которое необходимо добавить: ";
-    cin >> n;
-    string** books = new string*[n];
-    for (int i = 0; i < n; i++) {
-        books[i] = new string[n];
-    }
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            cout << "Введите название книги: \n";
-            cin >> bnew.name;
-            cout << "Введите автора: \n";
-            cin >> bnew.author;
-            cout << "Введите год издания: \n";
-            cin >> bnew.year;
-        }
-    }
-}
-bool avail(Book bnew) {
-    bool availability = true;
+    int initBook(string n, string a, int y, bool av) {
 
-}
-void range() {
-    NewBook();
-    for (int i = 0; i < 100; i++) {
-        for (int j = 0; j < 100; j++) {
-      //      cout << books[i][j] << " ";
-        }
-        cout << endl;
+        name = n;
+        author = a;
+        year = y;
+        availability = av;
+
     }
-}
+};
+
+struct Library {
+
+    Book books[100];
+    int amount = 0;
+
+    int addbook(string n, string a, int y, bool av) {
+
+        Book one;
+
+
+        one.name = n;
+        one.author = a;
+        one.year = y;
+
+        one.availability = true;
+
+        books[amount] = one;
+        amount += 1;
+
+        return amount;
+    }
+
+    int addbook() {
+
+        Book one;
+
+        cout << "Введите название книги: ";
+        cin >> one.name;
+        cout << "Введите автора: ";
+        cin >> one.author;
+        cout << "Введите год издания: ";
+        cin >> one.year;
+
+        one.availability = true;
+        
+        books[amount] = one;
+        amount += 1;
+
+        return amount;
+    }
+    void av() {
+        for (int i = 0; i < amount; i++) {
+            cout << "book number of #" << amount + 1 << ":" << endl;
+            cout << "name: " << books[i].name << endl;
+            cout << "author: " << books[i].author << endl;
+            cout << "year: " << books[i].year << endl;
+            cout << "status: " << books[i].availability << endl << endl << endl;
+        }
+        
+    }
+
+    void search() {
+        string nazvanie;
+        bool isfinded = false;
+        cout << "Введите название книги: ";
+        cin >> nazvanie;
+        for (int i = 0; i < amount; i++) {
+            if (nazvanie == books[i].name) {
+                cout << books[i].name << endl << books[i].author << endl << books[i].year << endl;
+                isfinded = true; 
+            }
+      
+        }
+
+        if(isfinded == false)  cout << "Book not found" << endl;
+    }
+};
+
 
 int main()
 {
     setlocale(LC_ALL, "RU");
 
-    NewBook();
+    Library lib;
+
+    //lib.addbook(); lib.addbook();
     
+    lib.addbook("name123", "author1", 1543, true);
+    lib.addbook("1984", "author1", 1543, true);
+    lib.addbook("451c", "author1", 1543, true);
+    lib.addbook("NASTYASOHNETPOVLADY", "author1", 1543, true);
+    lib.addbook("VLADIKLOVENASTYA", "author1", 1543, true);
+
+    lib.av();
+
+    lib.search();
+
     system("pause");
 }
 
