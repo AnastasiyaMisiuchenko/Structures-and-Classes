@@ -272,24 +272,147 @@ struct Library {
     }
 };
 
+class Human {
+public: 
+    int age;
+    string name;
+    string sex;
+    string race;
+    int money;
+    
+    Human(int age, string name, string sex, string race) {
+        this->age = age;
+        this->name = name;
+        this->sex = sex;
+        this->race = race;
+    }
+     
+    Human(int age, string name, string sex, string race, int money) {
+        Human(age, name, sex, race);
+        this->money = money;
+    }
+    void say() {
+        cout << "Привет! Меня зовут " << name << "!" << endl;
+    }
+    void say(string text) {
+        cout << text << endl;
+    }
+};
+
+class Phone {
+    friend class DeviceUser;
+public:
+    string brand;
+    bool lock = true;
+
+    Phone(string brand) {
+        this->brand = brand;
+    }
+
+    bool unlock(int pin) {
+        int set;
+        cout << "Введите пароль: ";
+        cin >> set;
+        if (set == pin) {
+            cout << "Телефон разблокирован." << endl;
+            lock = false;
+        }
+        else {
+            cout << "Введен неправильный пароль." << endl;
+            lock = true;
+        }
+        return lock;
+    }
+
+    bool block() {
+        lock = true;
+        cout << "Телефон заблокирован." << endl;
+    }
+
+    void call(string number) {
+        cout << "Идет набор номера " << number << endl;
+    }
+
+};
+class DeviceUser : public Human {
+public:
+    Phone* phone;
+    
+    DeviceUser(int age, string name, string sex, string race, int money) : Human(age, name, sex, race, money){
+        
+    }
+        
+        int buyMobile(int money) {
+            this->money = money;
+            int tmp;
+            cout << "Вы хотите купить андройд(1) или айфон(2)?\n" << endl;
+            cin >> tmp;
+            if (money >= 100) {
+                cout << "Вы купили телефон!" << endl;
+                if (tmp == 1) {
+                    phone = new Phone("Andrioid");
+                }
+                else {
+                    phone = new Phone("Iphone");
+                }
+            }
+            else {
+                cout << "Недостаточно средств." << endl;;
+            }
+            return tmp;
+        }
+
+        bool useMobile() {
+            phone->unlock(123);
+            cout << "Вы используеье телефон." << endl;
+            return true;
+        }
+};
+class Key;
+class Car;
+class Driver : Human {
+public: 
+    int experience;
+
+  //  void openCar(Key a) {
+
+ //   }
+
+};
+
+class Key {
+    friend class Car;
+public:
+    int id_form_factor = 1234;
+};
+
+class Car {
+    friend class Driver;
+public: 
+    string brand;
+    int year;
+    int speed;
+
+   // bool unlock(Key a) {
+     //   if (a == a.id_form_factor)
+    
+
+
+
+     
+};
 
 int main()
 {
     setlocale(LC_ALL, "RU");
 
-    Library lib;
 
-    //lib.addbook(); lib.addbook();
-    
-    lib.addbook("name123", "author1", 1543, true);
-    lib.addbook("1984", "author1", 1543, true);
-    lib.addbook("451c", "author1", 1543, true);
-    lib.addbook("NASTYASOHNETPOVLADY", "author1", 1543, true);
-    lib.addbook("VLADIKLOVENASTYA", "author1", 1543, true);
-
-    lib.av();
-
-    lib.search();
+    DeviceUser* Nasty = new DeviceUser(23, "Nastya", "ж", "Евро", 100);
+    Nasty->say("Я хочу купить телефон.");
+    Nasty->buyMobile(100);
+    Nasty->useMobile();
+    Nasty->phone; 
+  
 
     system("pause");
 }
